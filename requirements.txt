@@ -1,6 +1,6 @@
 dlib==19.24.0
 face_recognition
-streamlit
 opencv-python-headless
 gspread
 oauth2client
+streamlit
