@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Attendance Register</h1>
+        <div class="download-buttons">
+            <a class="file-download excel-button" href="{{ url_for('download_excel') }}" onclick="startLoader(this, 'excel-loader')">
+                <button id="excel-button">
+                    <i class="fa fa-file-excel-o"></i> Download Excel
+                </button>
+            </a>
+            <div id="excel-loader" class="loader" style="display: none;"></div>
+        
+            <a class="file-download pdf-button" href="{{ url_for('download_pdf') }}" onclick="startLoader(this, 'pdf-loader')">
+                <button id="pdf-button">
+                    <i class="fa fa-file-pdf-o"></i> Download PDF
+                </button>
+            </a>
+            <div id="pdf-loader" class="loader" style="display: none;"></div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Roll No</th>
+                    <th>Name</th>
+                    {% for date in dates %}
+                    <th>{{ date }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for roll_no, data in attendance_data.items() %}
+                <tr>
+                    <td>{{ roll_no }}</td>
+                    <td>{{ data.Name }}</td>
+                    {% for date in dates %}
+                    <td class="{{ 'present' if data.Attendance.get(date) == 'Present' else 'absent' }}">
+                        {{ 'P' if data.Attendance.get(date) == 'Present' else 'A' }}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+    function startLoader(anchor, loaderId) {
+        // Prevent default anchor behavior
+        const button = anchor.querySelector('button');
+        button.style.display = 'none'; // Hide the button
+        document.getElementById(loaderId).style.display = 'inline-block'; // Show the loader
+
+        // Allow time for the download request to process
+        setTimeout(() => {
+            button.style.display = 'flex'; // Show the button again
+            document.getElementById(loaderId).style.display = 'none'; // Hide the loader
+        }, 1000); // Adjust duration as needed
+    }
+</script>
+</body>
+
+</html>

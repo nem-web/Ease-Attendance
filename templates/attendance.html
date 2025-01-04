@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Student Attendance</h1>
+        <button class="start-btn" onclick="startAttendance()">Start Attendance</button>
+        <button class="register-btn" onclick="viewRegister()">View Attendance Register</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Roll No</th>
+                    <th>Name</th>
+                    <th>Total Attendance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>{{ record['Roll No'] }}</td>
+                    <td>{{ record['Name'] }}</td>
+                    <td>{{ record['Total Attendance'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function startAttendance() {
+            fetch("/start_attendance", {
+                method: "GET"
+            }).then(response => {
+                if (response.ok) {
+                    alert("Attendance session started!");
+                }
+            }).catch(err => {
+                console.error('Error:', err);
+            });
+        }
+
+        function viewRegister() {
+            window.location.href = "/attendance_register";
+        }
+    </script>
+</body>
+</html>
