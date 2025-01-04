@@ -1,6 +1,0 @@
-dlib==19.24.0
-face_recognition
-opencv-python-headless
-gspread
-oauth2client
-streamlit
